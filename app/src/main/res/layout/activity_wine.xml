@@ -16,6 +16,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/bembibre"
-></ImageView>
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/wine_image"
+        android:src="@drawable/bembibre" />
+
+    <Button
+        android:id="@+id/change_wine_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="changeModel"
+        android:text="@string/change_model" />
+
 </RelativeLayout>

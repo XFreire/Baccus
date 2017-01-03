@@ -3,6 +3,7 @@ package com.alexandre.baccus.controller;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.alexandre.baccus.R;
@@ -22,7 +23,9 @@ public class WineActivity extends Activity {
 		 *  otra imagen diferente usando identificadores
 		 */
         Log.v("Baccus", "Estamos viendo una imagen de un vino");
-        mWineImage.setImageResource(R.drawable.vegaval);
     }
 
+    public void changeModel(View view){
+        mWineImage.setImageResource(R.drawable.vegaval);
+    }
 }
