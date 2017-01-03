@@ -37,6 +37,7 @@ public class WineActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wine);
 
+        // Creamos el modelo
         mWine = new Wine("Bembibre",
                 "Dominio de Tares",
                 "Tinto",
@@ -45,6 +46,8 @@ public class WineActivity extends Activity {
                 "Este vino muestra toda la complejidad y la elegancia de la variedad Mencía. En fase visual luce un color rojo picota muy cubierto con tonalidades violáceas en el menisco. En nariz aparecen recuerdos frutales muy intensos de frutas rojas (frambuesa, cereza) y una potente ciruela negra, así como tonos florales de la gama de las rosas y violetas, vegetales muy elegantes y complementarios, hojarasca verde, tabaco y maderas aromáticas (sándalo) que le brindan un toque ciertamente perfumado.",
                 R.drawable.bembibre,
                 5);
+        mWine.addGrape("Tempranillo");
+
         // Asociamos controlador con vistas
         mWineImage = (ImageView)findViewById(R.id.wine_image);
         mWineNameText = (TextView)findViewById(R.id.wine_name);
@@ -63,6 +66,13 @@ public class WineActivity extends Activity {
         mWineOriginText.setText(mWine.getOrigin());
         mWineNotesText.setText(mWine.getNotes());
         mWineRatingBar.setProgress(mWine.getRating());
+        for (int i = 0; i < mWine.getGrapesCount(); i++) {
+            TextView grapeText = new TextView(this);
+            grapeText.setText(mWine.getGrape(i));
+            grapeText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            mWineGrapesContainer.addView(grapeText);
+        }
+
 
 
 

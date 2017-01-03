@@ -104,4 +104,20 @@ public class Wine {
     public void setType(String type) {
         mType = type;
     }
+
+    public String getGrape(int index) {
+        return this.mGrapes.get(index);
+    }
+
+    public int getGrapesCount() {
+        return this.mGrapes.size();
+    }
+
+    /**
+     * Método para añadir una uva
+     */
+    public void addGrape(String grape) {
+        this.mGrapes.add(grape);
+    }
+
 }
