@@ -8,10 +8,13 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.alexandre.baccus.WineActivity">
+    tools:context="com.alexandre.baccus.controller.WineActivity">
 
-    <TextView
+
+    <ImageView
+        android:id="@+id/wine_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_alignParentLeft="true"
+></ImageView>
 </RelativeLayout>
