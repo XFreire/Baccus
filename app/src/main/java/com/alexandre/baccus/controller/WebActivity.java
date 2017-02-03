@@ -18,6 +18,8 @@ import com.alexandre.baccus.models.Wine;
  */
 
 public class WebActivity extends Activity {
+    // Atributos estáticos
+    private static final String STATE_URL = "url";
 
     // Modelo
     private Wine mWine;
@@ -73,11 +75,18 @@ public class WebActivity extends Activity {
         mBrowser.getSettings().setBuiltInZoomControls(true);
 
 
-        // Cargo la página web
-        mBrowser.loadUrl(mWine.getWineCompanyWeb());
+        // Cargamos la página. Si no existe un estado previo, cargamos la del modelo
+        if (savedInstanceState == null || !savedInstanceState.containsKey(STATE_URL)) {
+            mBrowser.loadUrl(mWine.getWineCompanyWeb());
+        }
+        else {
+            mBrowser.loadUrl(savedInstanceState.getString(STATE_URL));
+        }
 
-
-
-
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_URL, mBrowser.getUrl());
     }
 }
