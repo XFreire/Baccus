@@ -39,7 +39,7 @@ public class WebFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View root = inflater.inflate(R.layout.activity_web, container, false);
+        View root = inflater.inflate(R.layout.fragment_web, container, false);
 
         // Creamos el modelo
         mWine = (Wine) getArguments().getSerializable(ARG_WINE);
@@ -96,7 +96,7 @@ public class WebFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_web, menu);
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
