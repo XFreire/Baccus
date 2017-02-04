@@ -1,10 +1,8 @@
 package com.alexandre.baccus.controller;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,8 +15,6 @@ import android.widget.TextView;
 
 import com.alexandre.baccus.R;
 import com.alexandre.baccus.models.Wine;
-
-import java.util.Arrays;
 
 public class WineActivity extends AppCompatActivity {
     public static final String EXTRA_WINE = "WineActivity.EXTRA_WINE";
