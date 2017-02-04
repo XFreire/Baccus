@@ -1,8 +1,9 @@
 package com.alexandre.baccus.controller;
 
-import android.app.Activity;
+
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,7 +21,7 @@ import com.alexandre.baccus.models.Wine;
  * Created by alexandre on 3/2/17.
  */
 
-public class WebActivity extends Activity {
+public class WebActivity extends AppCompatActivity {
     // Atributos estáticos
     private static final String STATE_URL = "url";
 
