@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.alexandre.baccus.R;
 
@@ -12,7 +13,7 @@ import com.alexandre.baccus.R;
  * Created by alexandre on 4/2/17.
  */
 
-public abstract class FragmentContainerActivity extends FragmentActivity{
+public abstract class FragmentContainerActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

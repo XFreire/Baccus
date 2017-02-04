@@ -19,7 +19,8 @@
         <activity
             android:name=".controller.activity.SettingsActivity"
             android:label="@string/app_name"/>
-        <activity android:name=".controller.activity.WineryActivity">
+        <activity android:name=".controller.activity.WineryActivity"
+                  android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -1,6 +1,5 @@
 package com.alexandre.baccus.controller.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,10 +7,8 @@ import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TabHost;
 
 import com.alexandre.baccus.R;
-import com.alexandre.baccus.controller.activity.WineActivity;
 import com.alexandre.baccus.models.Wine;
 
 /**
@@ -25,7 +22,7 @@ public class WineryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View root = inflater.inflate(R.layout.activity_winery, container, false);
+        View root = inflater.inflate(R.layout.fragment_winery, container, false);
 
         Wine bembibre = new Wine("Bembibre",
                 "Dominio de Tares",
