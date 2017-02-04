@@ -61,6 +61,8 @@ public class SettingsActivity extends Activity implements View.OnClickListener{
         } else if (mRadioGroup.getCheckedRadioButtonId() == R.id.center_radio){
             config.putExtra(EXTRA_WINE_IMAGE_SCALE_TYPE, ImageView.ScaleType.FIT_CENTER);
         }
+        setResult(RESULT_OK, config);
+        finish();
 
     }
 

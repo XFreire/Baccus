@@ -3,7 +3,11 @@ package com.alexandre.baccus.controller;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -16,7 +20,9 @@ import com.alexandre.baccus.models.Wine;
 
 import java.util.Arrays;
 
-public class WineActivity extends Activity {
+public class WineActivity extends AppCompatActivity {
+    private static final int SETTINGS_REQUEST = 1;
+    private static final String STATE_IMAGE_SCALE_TYPE = "WineActivity.STATE_IMAGE_SCALE_TYPE";
     /**
      * Vistas
      */
@@ -89,7 +95,46 @@ public class WineActivity extends Activity {
             }
         });
 
+        // Configuramos cómo se ve la imagen
+        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_IMAGE_SCALE_TYPE)){
+            mWineImage.setScaleType((ImageView.ScaleType) savedInstanceState.getSerializable(STATE_IMAGE_SCALE_TYPE));
+        }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == SETTINGS_REQUEST && resultCode == RESULT_OK){
+            ImageView.ScaleType scaleType = (ImageView.ScaleType) data.getSerializableExtra(SettingsActivity.EXTRA_WINE_IMAGE_SCALE_TYPE);
+            mWineImage.setScaleType(scaleType);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(STATE_IMAGE_SCALE_TYPE, mWineImage.getScaleType());
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_settings){
+            Intent intent = new Intent(this, SettingsActivity.class);
+            intent.putExtra(SettingsActivity.EXTRA_WINE_IMAGE_SCALE_TYPE, mWineImage.getScaleType());
+            startActivityForResult(intent, SETTINGS_REQUEST);
+            return true;
+        }
+        return false;
     }
 }
