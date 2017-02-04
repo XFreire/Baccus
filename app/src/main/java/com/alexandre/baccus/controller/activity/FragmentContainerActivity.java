@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.alexandre.baccus.R;
 
@@ -29,6 +30,9 @@ public abstract class FragmentContainerActivity extends AppCompatActivity{
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     protected abstract Fragment createFragment() ;
