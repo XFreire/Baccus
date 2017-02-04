@@ -2,4 +2,5 @@
     <string name="app_name">Baccus</string>
     <string name="change_model">Cambiar</string>
     <string name="wine_image">Imagen del vino</string>
+    <string name="reload">Recargar</string>
 </resources>
