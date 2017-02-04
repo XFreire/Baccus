@@ -1,4 +1,4 @@
-package com.alexandre.baccus.controller;
+package com.alexandre.baccus.controller.activity;
 
 import android.app.TabActivity;
 import android.content.Intent;
