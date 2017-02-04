@@ -31,7 +31,7 @@ public class Winery {
                 5);
         bembibre.addGrape("Mencía");
 
-        Wine vegaval = new Wine("Vegaval Plata Gran Reserva 2004",
+        Wine vegaval = new Wine("Vegaval",
                 "Miguel Calatayud",
                 "tinto",
                 "Valdepeñas",
