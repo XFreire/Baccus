@@ -1,5 +1,6 @@
 package com.alexandre.baccus.models;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by alexandre on 3/1/17.
  */
 
-public class Wine {
+public class Wine implements Serializable{
     /**
      * Atributos
      */
