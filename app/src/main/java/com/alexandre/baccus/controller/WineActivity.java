@@ -21,6 +21,7 @@ import com.alexandre.baccus.models.Wine;
 import java.util.Arrays;
 
 public class WineActivity extends AppCompatActivity {
+    public static final String EXTRA_WINE = "WineActivity.EXTRA_WINE";
     private static final int SETTINGS_REQUEST = 1;
     private static final String STATE_IMAGE_SCALE_TYPE = "WineActivity.STATE_IMAGE_SCALE_TYPE";
     /**
@@ -46,16 +47,8 @@ public class WineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wine);
 
-        // Creamos el modelo
-        mWine = new Wine("Bembibre",
-                "Dominio de Tares",
-                "Tinto",
-                "El Bierzo",
-                "http://www.dominiodetares.com/portfolio/bembibre/",
-                "Este vino muestra toda la complejidad y la elegancia de la variedad Mencía. En fase visual luce un color rojo picota muy cubierto con tonalidades violáceas en el menisco. En nariz aparecen recuerdos frutales muy intensos de frutas rojas (frambuesa, cereza) y una potente ciruela negra, así como tonos florales de la gama de las rosas y violetas, vegetales muy elegantes y complementarios, hojarasca verde, tabaco y maderas aromáticas (sándalo) que le brindan un toque ciertamente perfumado.",
-                R.drawable.bembibre,
-                5);
-        mWine.addGrape("Tempranillo");
+        // Recogemos el modelo
+        mWine = (Wine) getIntent().getSerializableExtra(EXTRA_WINE);
 
         // Asociamos controlador con vistas
         mWineImage = (ImageView)findViewById(R.id.wine_image);
