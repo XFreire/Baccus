@@ -21,6 +21,9 @@ public abstract class FragmentContainerActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_container);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        
         FragmentManager fm = getSupportFragmentManager();
 
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
@@ -31,8 +34,7 @@ public abstract class FragmentContainerActivity extends AppCompatActivity{
                     .commit();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
     }
 
     protected abstract Fragment createFragment() ;
