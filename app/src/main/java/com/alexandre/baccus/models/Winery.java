@@ -73,4 +73,8 @@ public class Winery {
     public int getWineCount() {
         return mWines.size();
     }
+
+    public List<Wine> getWineList() {
+        return mWines;
+    }
 }

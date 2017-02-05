@@ -11,4 +11,7 @@
     <string name="settings">Ajustes</string>
     <string name="next">Siguiente</string>
     <string name="prev">Anterior</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
