@@ -1,6 +1,7 @@
 package com.alexandre.baccus.controller.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,7 @@ import com.alexandre.baccus.models.Winery;
 
 
 public class WineListFragment extends Fragment {
-
+    public OnWineSelectedListener mListener;
 
     public WineListFragment() {
         // Required empty public constructor
@@ -40,12 +41,30 @@ public class WineListFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), WineryActivity.class);
-                intent.putExtra(WineryActivity.EXTRA_WINE_INDEX, i);
-                startActivity(intent);
+                mListener.onWineSelected(i);
             }
         });
         return root;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // Decimos a la actividad que implemente el interface
+        mListener = (OnWineSelectedListener) getActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        // Para evitar llamadas innecesarias cuando no formemos parte de la actividad
+        mListener = null;
+
+    }
+
+
+    public interface OnWineSelectedListener {
+        void onWineSelected(int wineIndex);
     }
 
 }

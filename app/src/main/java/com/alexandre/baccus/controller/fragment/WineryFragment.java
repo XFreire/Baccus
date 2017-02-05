@@ -103,6 +103,10 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
         mActionBar.setTitle(mWinery.getWine(index).getName());
     }
 
+    public void changeWine(int wineIndex) {
+        mPager.setCurrentItem(wineIndex);
+    }
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
