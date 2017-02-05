@@ -3,6 +3,7 @@ package com.alexandre.baccus.controller.fragment;
 import android.os.Bundle;
 import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
@@ -25,9 +26,18 @@ import com.alexandre.baccus.models.Winery;
  */
 
 public class WineryFragment extends Fragment implements ViewPager.OnPageChangeListener {
+    public static  final String ARG_WINE_INDEX = "WineryFragment.ARG_WINE_INDEX";
     private ViewPager mPager = null;
     private ActionBar mActionBar;
     private Winery mWinery;
+
+    public static WineryFragment newInstance(int wineIndex) {
+        Bundle arguments = new Bundle();
+        arguments.putInt(ARG_WINE_INDEX, wineIndex);
+        WineryFragment fragment = new WineryFragment();
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -44,7 +54,9 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
         mActionBar = (ActionBar) ((AppCompatActivity) getActivity()).getSupportActionBar();
         mPager.addOnPageChangeListener(this);
 
-        updateActionBar(0);
+
+        int initialWineIndex = getArguments().getInt(ARG_WINE_INDEX);
+        mPager.setCurrentItem(initialWineIndex);
         return root;
     }
 

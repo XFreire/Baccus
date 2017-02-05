@@ -1,6 +1,7 @@
 package com.alexandre.baccus.controller.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.alexandre.baccus.R;
+import com.alexandre.baccus.controller.activity.WineryActivity;
 import com.alexandre.baccus.models.Wine;
 import com.alexandre.baccus.models.Winery;
 
@@ -38,7 +40,9 @@ public class WineListFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Intent intent = new Intent(getActivity(), WineryActivity.class);
+                intent.putExtra(WineryActivity.EXTRA_WINE_INDEX, i);
+                startActivity(intent);
             }
         });
         return root;
