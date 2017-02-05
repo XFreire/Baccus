@@ -63,10 +63,10 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean superValue = super.onOptionsItemSelected(item);
-        if (item.getItemId() == R.id.menu_next){
+        if (item.getItemId() == R.id.menu_next && mPager.getCurrentItem() < mWinery.getWineCount() - 1){
             mPager.setCurrentItem(mPager.getCurrentItem() + 1);
             return true;
-        } else if (item.getItemId() == R.id.menu_prev){
+        } else if (item.getItemId() == R.id.menu_prev && mPager.getCurrentItem() > 0){
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
             return true;
         } else {
@@ -78,6 +78,12 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+
+        MenuItem nextItem = (MenuItem) menu.findItem(R.id.menu_next);
+        MenuItem prevItem = (MenuItem) menu.findItem(R.id.menu_prev);
+
+        nextItem.setEnabled(mPager.getCurrentItem() < mWinery.getWineCount() - 1);
+        prevItem.setEnabled(mPager.getCurrentItem() > 0);
     }
 
 
