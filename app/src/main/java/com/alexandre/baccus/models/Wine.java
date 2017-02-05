@@ -121,4 +121,8 @@ public class Wine implements Serializable{
         this.mGrapes.add(grape);
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
