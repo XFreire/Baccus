@@ -1,6 +1,7 @@
 package com.alexandre.baccus.controller.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -8,6 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -43,6 +47,39 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
         updateActionBar(0);
         return root;
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_winery, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean superValue = super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.menu_next){
+            mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+            return true;
+        } else if (item.getItemId() == R.id.menu_prev){
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+            return true;
+        } else {
+            return superValue;
+        }
+
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+    }
+
 
     private void updateActionBar(int index) {
         mActionBar.setTitle(mWinery.getWine(index).getName());
