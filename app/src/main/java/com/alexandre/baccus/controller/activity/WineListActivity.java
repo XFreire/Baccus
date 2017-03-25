@@ -2,6 +2,7 @@ package com.alexandre.baccus.controller.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -37,7 +38,13 @@ public class WineListActivity extends AppCompatActivity implements WineListFragm
         if (findViewById(R.id.winery) != null) {
             Fragment wineryFragment = fm.findFragmentById(R.id.winery);
             if (wineryFragment == null) {
-                wineryFragment =  WineryFragment.newInstance(0);
+                // En lugar de mostrar el vino en la posición 0, muestro el que tengo
+                // guardado en las preferencias
+                int lastWineIndex = PreferenceManager
+                        .getDefaultSharedPreferences(this)
+                        .getInt(WineryFragment.PREF_LAST_WINE_INDEX, 0);
+
+                wineryFragment =  WineryFragment.newInstance(lastWineIndex);
                 fm.beginTransaction().add(R.id.winery, wineryFragment).commit();
             }
         }

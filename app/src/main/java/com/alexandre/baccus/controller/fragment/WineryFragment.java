@@ -1,6 +1,8 @@
 package com.alexandre.baccus.controller.fragment;
 
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringDef;
@@ -27,6 +29,8 @@ import com.alexandre.baccus.models.Winery;
 
 public class WineryFragment extends Fragment implements ViewPager.OnPageChangeListener {
     public static  final String ARG_WINE_INDEX = "WineryFragment.ARG_WINE_INDEX";
+    public static  final String PREF_LAST_WINE_INDEX = "PREF_LAST_WINE_INDEX";
+
     private ViewPager mPager = null;
     private ActionBar mActionBar;
     private Winery mWinery;
@@ -115,6 +119,14 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
     @Override
     public void onPageSelected(int position) {
         mActionBar.setTitle(mWinery.getWine(position).getName());
+
+        // Como cada vez que se muestra un vino, el programa pasa por este método,
+        // es aquí donde vamos a guardar el último vino mostrado
+        PreferenceManager
+                .getDefaultSharedPreferences(getActivity())
+                .edit()
+                .putInt(PREF_LAST_WINE_INDEX, position)
+                .commit();
     }
 
     @Override
