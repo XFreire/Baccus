@@ -3,6 +3,7 @@ package com.alexandre.baccus.controller.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -106,6 +107,19 @@ public class WineFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Como siempre pasamos por el onResume antes de mostrar el fragment, lo comprobamos aquí:
+
+        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).contains(SettingsFragment.PREF_IMAGE_SCALE_TYPE)) {
+            String scaleTypeString = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SettingsFragment.PREF_IMAGE_SCALE_TYPE, null);
+            ImageView.ScaleType scaleType = ImageView.ScaleType.valueOf(scaleTypeString);
+
+            mWineImage.setScaleType(scaleType);
+        }
     }
 
     @Override

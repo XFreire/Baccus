@@ -2,7 +2,9 @@ package com.alexandre.baccus.controller.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,6 +23,8 @@ import com.alexandre.baccus.controller.activity.SettingsActivity;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
     public static final String ARG_WINE_IMAGE_SCALE_TYPE = "SettingsFragment.ARG_WINE_IMAGE_SCALE_TYPE";
+    public static final String PREF_IMAGE_SCALE_TYPE = "PREF_IMAGE_SCALE_TYPE";
+
     // Vistas
     private RadioGroup mRadioGroup = null;
 
@@ -67,11 +71,24 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private void saveSettings() {
         Intent config = new Intent();
+
+        // Guardamos la configuración en las preferencias:
+        // Declaramos el editor
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+
         if (mRadioGroup.getCheckedRadioButtonId() == R.id.fit_radio){
             config.putExtra(SettingsActivity.EXTRA_WINE_IMAGE_SCALE_TYPE, ImageView.ScaleType.FIT_XY);
+            // Lo añado al editor
+            editor.putString(PREF_IMAGE_SCALE_TYPE, ImageView.ScaleType.FIT_XY.toString());
+
         } else if (mRadioGroup.getCheckedRadioButtonId() == R.id.center_radio){
             config.putExtra(SettingsActivity.EXTRA_WINE_IMAGE_SCALE_TYPE, ImageView.ScaleType.FIT_CENTER);
+            // Lo añado al editor
+            editor.putString(PREF_IMAGE_SCALE_TYPE, ImageView.ScaleType.FIT_CENTER.toString());
         }
+
+        // Lo guardo
+        editor.commit();
         getActivity().setResult(Activity.RESULT_OK, config);
         getActivity().finish();
 
