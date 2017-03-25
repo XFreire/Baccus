@@ -153,9 +153,12 @@ public class WineFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.action_settings){
-            Intent intent = new Intent(getActivity(), SettingsActivity.class);
-            intent.putExtra(SettingsActivity.EXTRA_WINE_IMAGE_SCALE_TYPE, mWineImage.getScaleType());
-            startActivityForResult(intent, SETTINGS_REQUEST);
+            SettingsFragment fragmentDialog = new SettingsFragment();
+            Bundle arguments = new Bundle();
+            arguments.putSerializable(SettingsFragment.ARG_WINE_IMAGE_SCALE_TYPE, mWineImage.getScaleType());
+            fragmentDialog.setArguments(arguments);
+            fragmentDialog.setTargetFragment(this, SETTINGS_REQUEST);
+            fragmentDialog.show(getFragmentManager(), null);
             return true;
         }
         return false;

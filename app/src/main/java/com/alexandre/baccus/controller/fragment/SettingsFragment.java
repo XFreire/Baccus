@@ -1,11 +1,14 @@
 package com.alexandre.baccus.controller.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +24,7 @@ import com.alexandre.baccus.controller.activity.SettingsActivity;
  * Created by alexandre on 4/2/17.
  */
 
-public class SettingsFragment extends Fragment implements View.OnClickListener {
+public class SettingsFragment extends DialogFragment implements View.OnClickListener {
     public static final String ARG_WINE_IMAGE_SCALE_TYPE = "SettingsFragment.ARG_WINE_IMAGE_SCALE_TYPE";
     public static final String PREF_IMAGE_SCALE_TYPE = "PREF_IMAGE_SCALE_TYPE";
 
@@ -55,6 +58,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         return root;
     }
 
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog =  super.onCreateDialog(savedInstanceState);
+        dialog.setTitle(R.string.settings);
+        return dialog;
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -70,6 +81,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void saveSettings() {
+        ImageView.ScaleType selectedScaleType = null;
+
         Intent config = new Intent();
 
         // Guardamos la configuración en las preferencias:
@@ -77,25 +90,42 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
 
         if (mRadioGroup.getCheckedRadioButtonId() == R.id.fit_radio){
-            config.putExtra(SettingsActivity.EXTRA_WINE_IMAGE_SCALE_TYPE, ImageView.ScaleType.FIT_XY);
-            // Lo añado al editor
-            editor.putString(PREF_IMAGE_SCALE_TYPE, ImageView.ScaleType.FIT_XY.toString());
+            selectedScaleType = ImageView.ScaleType.FIT_XY;
+
 
         } else if (mRadioGroup.getCheckedRadioButtonId() == R.id.center_radio){
-            config.putExtra(SettingsActivity.EXTRA_WINE_IMAGE_SCALE_TYPE, ImageView.ScaleType.FIT_CENTER);
-            // Lo añado al editor
-            editor.putString(PREF_IMAGE_SCALE_TYPE, ImageView.ScaleType.FIT_CENTER.toString());
+            selectedScaleType = ImageView.ScaleType.FIT_CENTER;
         }
+
+        config.putExtra(SettingsActivity.EXTRA_WINE_IMAGE_SCALE_TYPE, selectedScaleType);
+        // Lo añado al editor
+        editor.putString(PREF_IMAGE_SCALE_TYPE, selectedScaleType.toString());
 
         // Lo guardo
         editor.commit();
-        getActivity().setResult(Activity.RESULT_OK, config);
-        getActivity().finish();
 
+        // Preguntamos si nos han llamado desde un fragment o desde un activiy:
+        if (getTargetFragment() != null){
+            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, config);
+
+            // Quito el dialogo de pantalla
+            dismiss();
+        }
+        else {
+            getActivity().setResult(Activity.RESULT_OK, config);
+            getActivity().finish();
+        }
     }
 
     private void cancelSettings() {
-        getActivity().setResult(Activity.RESULT_CANCELED);
-        getActivity().finish();
+        if (getTargetFragment() != null) {
+            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, null);
+            dismiss();
+        }
+        else {
+            getActivity().setResult(Activity.RESULT_CANCELED);
+            getActivity().finish();
+        }
+
     }
 }
