@@ -36,7 +36,7 @@ public class WineListFragment extends Fragment {
         AsyncTask<Void, Void, Winery> wineryDownloader = new AsyncTask<Void, Void, Winery>() {
             @Override
             protected Winery doInBackground(Void... voids) {
-                return Winery.getInstance();;
+                return Winery.getInstance();
             }
 
             @Override
@@ -57,7 +57,7 @@ public class WineListFragment extends Fragment {
         };
 
         wineryDownloader.execute();
-        
+
         return root;
     }
 
