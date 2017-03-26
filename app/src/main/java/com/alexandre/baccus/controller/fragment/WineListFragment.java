@@ -3,6 +3,7 @@ package com.alexandre.baccus.controller.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,21 +30,34 @@ public class WineListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root =  inflater.inflate(R.layout.fragment_wine_list, container, false);
+        final View root =  inflater.inflate(R.layout.fragment_wine_list, container, false);
 
-        ListView listView = (ListView)root.findViewById(android.R.id.list);
 
-        Winery winery = Winery.getInstance();
-        ArrayAdapter<Wine> adapter = new ArrayAdapter<Wine>(getActivity(), android.R.layout.simple_expandable_list_item_1, winery.getWineList());
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        AsyncTask<Void, Void, Winery> wineryDownloader = new AsyncTask<Void, Void, Winery>() {
+            @Override
+            protected Winery doInBackground(Void... voids) {
+                return Winery.getInstance();;
+            }
 
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mListener.onWineSelected(i);
+            protected void onPostExecute(Winery winery) {
+                ListView listView = (ListView) root.findViewById(android.R.id.list);
+
+                ArrayAdapter<Wine> adapter = new ArrayAdapter<Wine>(getActivity(), android.R.layout.simple_expandable_list_item_1, winery.getWineList());
+                listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        mListener.onWineSelected(i);
+                    }
+                });
             }
-        });
+        };
+
+        wineryDownloader.execute();
+        
         return root;
     }
 
