@@ -1,5 +1,6 @@
 package com.alexandre.baccus.controller.fragment;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
@@ -35,6 +36,7 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
     private ViewPager mPager = null;
     private ActionBar mActionBar;
     private Winery mWinery;
+    private ProgressDialog mProgress;
 
     public static WineryFragment newInstance(int wineIndex) {
         Bundle arguments = new Bundle();
@@ -76,9 +78,16 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
 
                 int initialWineIndex = getArguments().getInt(ARG_WINE_INDEX);
                 mPager.setCurrentItem(initialWineIndex);
+
+                mProgress.dismiss();
             }
         };
+        mProgress = new ProgressDialog(getActivity());
+        mProgress.setTitle(R.string.loading);
 
+        if (!Winery.isInstanceAvailable()) {
+            mProgress.show();
+        }
         wineryDownloader.execute();
 
 

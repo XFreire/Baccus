@@ -1,6 +1,7 @@
 package com.alexandre.baccus.controller.fragment;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -22,6 +23,7 @@ import com.alexandre.baccus.models.Winery;
 public class WineListFragment extends Fragment {
     public OnWineSelectedListener mListener;
 
+    private ProgressDialog mProgress;
     public WineListFragment() {
         // Required empty public constructor
     }
@@ -53,9 +55,16 @@ public class WineListFragment extends Fragment {
                         mListener.onWineSelected(i);
                     }
                 });
+                mProgress.dismiss();
             }
         };
 
+        mProgress = new ProgressDialog(getActivity());
+        mProgress.setTitle(R.string.loading);
+
+        if (!Winery.isInstanceAvailable()) {
+            mProgress.show();
+        }
         wineryDownloader.execute();
 
         return root;
