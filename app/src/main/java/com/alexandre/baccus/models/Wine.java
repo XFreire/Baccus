@@ -1,5 +1,11 @@
 package com.alexandre.baccus.models;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +19,8 @@ public class Wine implements Serializable{
      * Atributos
      */
     private String mType = null;
-    private int mPhoto = 0;
+    private Bitmap mPhoto = null;
+    private String mPhotoURL = null;
     private String mWineCompanyWeb = null;
     private String mNotes = null;
     private String mOrigin = null;
@@ -28,9 +35,9 @@ public class Wine implements Serializable{
      * Constructor
      */
     public Wine(String name, String wineCompanyName, String type, String origin,
-                String wineCompanyWeb, String notes, int photo, int rating) {
+                String wineCompanyWeb, String notes, String photoUrl, int rating) {
         mType = type;
-        mPhoto = photo;
+        mPhotoURL = photoUrl;
         mWineCompanyWeb = wineCompanyWeb;
         mNotes = notes;
         mOrigin = origin;
@@ -90,12 +97,16 @@ public class Wine implements Serializable{
         mWineCompanyWeb = wineCompanyWeb;
     }
 
-    public int getPhoto() {
+    public Bitmap getPhoto() {
+        if (mPhoto == null) {
+            // Nos bajamos la imagen
+            mPhoto = getBitmapFromURL(getPhotoURL());
+        }
         return mPhoto;
     }
 
-    public void setPhoto(int photo) {
-        mPhoto = photo;
+    public String getPhotoURL() {
+        return mPhotoURL;
     }
 
     public String getType() {
@@ -125,4 +136,26 @@ public class Wine implements Serializable{
     public String toString() {
         return getName();
     }
+
+    /**
+     * Método para bajar una ImageView de una URL
+     */
+    private Bitmap getBitmapFromURL(String url) {
+        InputStream in = null;
+        try {
+            in = new java.net.URL(url).openStream();
+            return BitmapFactory.decodeStream(in);
+        } catch (Exception e) {
+            Log.e("Baccus", "Error downloading image", e);
+            return null;
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException e) {}
+        }
+    }
+
+
 }
