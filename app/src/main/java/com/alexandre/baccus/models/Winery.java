@@ -48,6 +48,10 @@ public class Winery {
         return sInstance;
     }
 
+    public static boolean isInstanceAvailable() {
+        return sInstance != null;
+    }
+
     private static Winery downloadWines() throws MalformedURLException, IOException, JSONException {
         Winery winery = new Winery();
         winery.mWines = new LinkedList<Wine>();
