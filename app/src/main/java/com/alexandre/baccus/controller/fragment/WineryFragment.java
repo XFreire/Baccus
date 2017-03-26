@@ -49,10 +49,9 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View root = inflater.inflate(R.layout.fragment_winery, container, false);
+        final View root = inflater.inflate(R.layout.fragment_winery, container, false);
 
-        mPager = (ViewPager) root.findViewById(R.id.pager);
-        mPager.setAdapter(new WineryPagerAdapter(getFragmentManager()));
+
 
 
 
@@ -68,6 +67,8 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
             protected void onPostExecute(Winery winery) {
                 Winery mWinery = winery;
 
+                mPager = (ViewPager) root.findViewById(R.id.pager);
+                mPager.setAdapter(new WineryPagerAdapter(getFragmentManager()));
                 // Actualizamos la UI
                 mActionBar = (ActionBar) ((AppCompatActivity) getActivity()).getSupportActionBar();
                 mPager.addOnPageChangeListener(WineryFragment.this);
@@ -99,15 +100,22 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean superValue = super.onOptionsItemSelected(item);
-        if (item.getItemId() == R.id.menu_next && mPager.getCurrentItem() < mWinery.getWineCount() - 1){
-            mPager.setCurrentItem(mPager.getCurrentItem() + 1);
-            return true;
-        } else if (item.getItemId() == R.id.menu_prev && mPager.getCurrentItem() > 0){
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
-            return true;
-        } else {
+
+        if (mPager != null){
+            if (item.getItemId() == R.id.menu_next && mPager.getCurrentItem() < mWinery.getWineCount() - 1){
+                mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+                return true;
+            } else if (item.getItemId() == R.id.menu_prev && mPager.getCurrentItem() > 0){
+                mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+                return true;
+            } else {
+                return superValue;
+            }
+        }
+        else {
             return superValue;
         }
+
 
     }
 
@@ -115,11 +123,14 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        MenuItem nextItem = (MenuItem) menu.findItem(R.id.menu_next);
-        MenuItem prevItem = (MenuItem) menu.findItem(R.id.menu_prev);
+        if (mPager != null){
+            MenuItem nextItem = (MenuItem) menu.findItem(R.id.menu_next);
+            MenuItem prevItem = (MenuItem) menu.findItem(R.id.menu_prev);
 
-        nextItem.setEnabled(mPager.getCurrentItem() < mWinery.getWineCount() - 1);
-        prevItem.setEnabled(mPager.getCurrentItem() > 0);
+            nextItem.setEnabled(mPager.getCurrentItem() < mWinery.getWineCount() - 1);
+            prevItem.setEnabled(mPager.getCurrentItem() > 0);
+        }
+
     }
 
 
@@ -152,5 +163,15 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mPager != null){
+            getArguments().putInt(ARG_WINE_INDEX, mPager.getCurrentItem());
+        }
     }
 }
