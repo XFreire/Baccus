@@ -1,5 +1,6 @@
 package com.alexandre.baccus.controller.fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -53,14 +54,33 @@ public class WineryFragment extends Fragment implements ViewPager.OnPageChangeLi
         mPager = (ViewPager) root.findViewById(R.id.pager);
         mPager.setAdapter(new WineryPagerAdapter(getFragmentManager()));
 
+
+
         mWinery = Winery.getInstance();
 
-        mActionBar = (ActionBar) ((AppCompatActivity) getActivity()).getSupportActionBar();
-        mPager.addOnPageChangeListener(this);
+        AsyncTask<Void, Void, Winery> wineryDownloader = new AsyncTask<Void, Void, Winery>() {
+            @Override
+            protected Winery doInBackground(Void... voids) {
+                return Winery.getInstance();
+            }
+
+            @Override
+            protected void onPostExecute(Winery winery) {
+                Winery mWinery = winery;
+
+                // Actualizamos la UI
+                mActionBar = (ActionBar) ((AppCompatActivity) getActivity()).getSupportActionBar();
+                mPager.addOnPageChangeListener(WineryFragment.this);
 
 
-        int initialWineIndex = getArguments().getInt(ARG_WINE_INDEX);
-        mPager.setCurrentItem(initialWineIndex);
+                int initialWineIndex = getArguments().getInt(ARG_WINE_INDEX);
+                mPager.setCurrentItem(initialWineIndex);
+            }
+        };
+
+        wineryDownloader.execute();
+
+
         return root;
     }
 
