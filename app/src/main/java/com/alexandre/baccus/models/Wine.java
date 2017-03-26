@@ -1,9 +1,13 @@
 package com.alexandre.baccus.models;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FilePermission;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -15,9 +19,11 @@ import java.util.List;
  */
 
 public class Wine implements Serializable{
+
     /**
      * Atributos
      */
+    private String mId = null;
     private String mType = null;
     private Bitmap mPhoto = null;
     private String mPhotoURL = null;
@@ -34,8 +40,9 @@ public class Wine implements Serializable{
     /**
      * Constructor
      */
-    public Wine(String name, String wineCompanyName, String type, String origin,
+    public Wine(String id, String name, String wineCompanyName, String type, String origin,
                 String wineCompanyWeb, String notes, String photoUrl, int rating) {
+        mId = id;
         mType = type;
         mPhotoURL = photoUrl;
         mWineCompanyWeb = wineCompanyWeb;
@@ -46,9 +53,15 @@ public class Wine implements Serializable{
         mWineCompanyName = wineCompanyName;
     }
 
+    public String getId() {
+        return mId;
+    }
+
     /**
      * Getters and setters
      */
+
+
     public String getWineCompanyName() {
         return mWineCompanyName;
     }
@@ -97,10 +110,10 @@ public class Wine implements Serializable{
         mWineCompanyWeb = wineCompanyWeb;
     }
 
-    public Bitmap getPhoto() {
+    public Bitmap getPhoto(Context context) {
         if (mPhoto == null) {
             // Nos bajamos la imagen
-            mPhoto = getBitmapFromURL(getPhotoURL());
+            mPhoto = getBitmapFromURL(getPhotoURL(), context);
         }
         return mPhoto;
     }
@@ -140,11 +153,25 @@ public class Wine implements Serializable{
     /**
      * Método para bajar una ImageView de una URL
      */
-    private Bitmap getBitmapFromURL(String url) {
+    private Bitmap getBitmapFromURL(String url, Context context) {
+        // Comprobamos si nos tenemos que descargar la imagen con esta url o, por el contrario, ya
+        // la tenemos guardada en caché
+
+        File imageFile = new File(context.getCacheDir(), getId());
+        if (imageFile.exists()){
+            return BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+        }
+
         InputStream in = null;
         try {
             in = new java.net.URL(url).openStream();
-            return BitmapFactory.decodeStream(in);
+            Bitmap bitmap = BitmapFactory.decodeStream(in);
+
+            // Lo guardamos en caché
+            FileOutputStream fos = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos);
+
+            return bitmap;
         } catch (Exception e) {
             Log.e("Baccus", "Error downloading image", e);
             return null;

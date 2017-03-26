@@ -65,6 +65,7 @@ public class Winery {
         // Recorremos el array de vinos
         JSONArray wines = new JSONArray(response.toString());
         for (int wineIndex = 0; wineIndex < wines.length(); wineIndex++) {
+            String id = null;
             String name = null;
             String type = null;
             String company = null;
@@ -78,6 +79,7 @@ public class Winery {
 
             JSONObject jSONWine = wines.getJSONObject(wineIndex);
             if (jSONWine.has("name")) {
+                id = jSONWine.getString("_id");
                 name = jSONWine.getString("name");
                 type = jSONWine.getString("type");
                 company = jSONWine.getString("company");
@@ -95,7 +97,7 @@ public class Winery {
                 }
 
                 // Creamos el vino con los datos recogidos
-                Wine wine = new Wine(name, company, type, origin, companyWeb, notes, picture, rating);
+                Wine wine = new Wine(id, name, company, type, origin, companyWeb, notes, picture, rating);
                 winery.mWines.add(wine);
 
 
