@@ -72,6 +72,8 @@ public class Winery {
             String notes = null;
             String origin = null;
             int rating = 0;
+            String picture = null;
+
             List<String> grapes = new LinkedList<String>();
 
             JSONObject jSONWine = wines.getJSONObject(wineIndex);
@@ -83,6 +85,8 @@ public class Winery {
                 notes = jSONWine.getString("notes");
                 origin = jSONWine.getString("origin");
                 rating = jSONWine.getInt("rating");
+                picture = jSONWine.getString("picture");
+
 
                 // Recorremos los tipos de uva
                 JSONArray jSONGrapes = jSONWine.getJSONArray("grapes");
@@ -91,7 +95,7 @@ public class Winery {
                 }
 
                 // Creamos el vino con los datos recogidos
-                Wine wine = new Wine(name, company, type, origin, companyWeb, notes, R.drawable.bembibre, rating);
+                Wine wine = new Wine(name, company, type, origin, companyWeb, notes, picture, rating);
                 winery.mWines.add(wine);
 
 
